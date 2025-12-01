@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Build and deploy to GitHub Pages
 on:
   push:
     branches:
@@ -22,16 +22,11 @@ jobs:
           node-version: '18'
 
       - name: Install dependencies
-        run: |
-          if [ -f package-lock.json ] || [ -f package.json ]; then
-            npm ci
-          fi
+        run: npm ci
 
       - name: Build
-        run: |
-          if [ -f package.json ]; then
-            npm run build -- --base /Signs-And-Computers-Website-/
-          fi
+        # Ensure Vite builds with the correct base (redundant if vite.config.ts is correct)
+        run: npm run build -- --base /Signs-And-Computers-Website-/
 
       - name: Upload artifact for GitHub Pages
         uses: actions/upload-pages-artifact@v1
